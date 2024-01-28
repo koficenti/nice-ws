@@ -23,30 +23,43 @@ A few reasons:
 #### Simple usage:
 Creates a simple web socket server that if it receives the message "say hi" it will send the corresponding message to the client, "Hello"
 ```kotlin
+// this code works for the moment 🫢
+
 fun main(){
     WebSocketDebugger.enabled = true
     WebSocketDebugger.output = true
 
-    val server: WebSocketServer = WebSocketServer(1234)
+    val server = WebSocketServerBuilder(12345)
+        .withChannels(allowedChannels = mutableListOf("default", "chat", ""))
+        .build()
 
-    val messages = hashMapOf("say hi" to "Hello!")
+    server.onMessageReceived { agent, message ->
+        val query = ChannelStore.parse(message)
 
-    server.onMessageReceived { agent, input ->
-        if (messages.containsKey(input)){
-            WebSocketDebugger.log("Got '$input' so sending '${messages[input]}'")
-            WebSocketMessage.sendMessage(agent, messages[input]!!)
+        if(query != null){
+            when(query.first){
+                "" -> {
+                    ChannelStore.broadcast("default", "${agent.id} : ${query.second}")
+                }
+                "default" -> {
+                    ChannelStore.broadcast("default", "${agent.id} : ${query.second}")
+                }
+                "chat" -> {
+                    ChannelStore.broadcast("chat", "${agent.id} : ${query.second}")
+                }
+            }
         }
     }
 
-    server.onBinaryReceived { agent, bytes ->
-        if(bytes.isNotEmpty() && 0.toByte() == bytes[0]){
-            WebSocketDebugger.log("starts with 0")
-        }
+    server.onConnectionOpened { agent ->
+        ChannelStore.addToChannel("default", agent.id.toString())
+        ChannelStore.broadcast("default", "${agent.id} : has Joined! 👍")
     }
-    
-    server.onConnectionOpened { agent -> null } // do something
-    server.onConnectionClosed { agent -> null } // do something
-    
+
+    server.onConnectionClosed { agent ->
+        ChannelStore.broadcast("default", "${agent.id} : has Left! 💀")
+    }
+
     server.start()
 }
 
