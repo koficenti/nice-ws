@@ -39,7 +39,7 @@ fun main(){
         if(query != null){
             when(query.first){
                 "" -> {
-                    // default://Hello There!
+                    // Hello There!
                     ChannelStore.broadcast("default", "${agent.id} : ${query.second}")
                 }
                 "default" -> {
