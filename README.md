@@ -39,12 +39,15 @@ fun main(){
         if(query != null){
             when(query.first){
                 "" -> {
+                    // default://Hello There!
                     ChannelStore.broadcast("default", "${agent.id} : ${query.second}")
                 }
                 "default" -> {
+                    // default://Hello There!
                     ChannelStore.broadcast("default", "${agent.id} : ${query.second}")
                 }
                 "chat" -> {
+                    // chat://Hello There!
                     ChannelStore.broadcast("chat", "${agent.id} : ${query.second}")
                 }
             }
@@ -66,6 +69,7 @@ fun main(){
 ```
 
 ### Currently working on:
+
 - Channels (or rooms)
 - Auth / Validation (or Permissions)
 - Advanced Logging
