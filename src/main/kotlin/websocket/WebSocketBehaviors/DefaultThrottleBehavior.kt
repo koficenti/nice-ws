@@ -1,0 +1,4 @@
+package websocket.WebSocketBehaviors
+import websocket.WebSocketServerBehaviors
+class DefaultThrottleBehavior : WebSocketServerBehaviors{
+}
