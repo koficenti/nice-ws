@@ -44,7 +44,8 @@ fun main(){
 ```
 
 ### Currently working on:
-- Auth / Validation
+- Channels (or rooms)
+- Auth / Validation (or Permissions)
 - Advanced Logging
 - Throttling
 - Rate Limiting
@@ -55,6 +56,8 @@ fun main(){
 - Auditing
 - CustomHeader
 - Message Filtering
+- Task Factory
+- Probably more ideas later on 😁
 
 
 ### Use cases:
@@ -68,3 +71,9 @@ fun main(){
 - Real time tracking and monitoring
 - Collaboration Oriented Projects
 - Log streaming
+
+### Benchmarks & Comparisons:
+
+```
+Coming soon!
+```
