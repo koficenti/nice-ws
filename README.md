@@ -9,6 +9,15 @@ Currently with server support only (client coming soon 👍). \
 The goal for this project is to become very feature rich and easy to use for the general use cases.
 ######  This library is new and not for production, you were warned ⚠️
 
+
+#### Why was 'nice-ws' created?
+
+A few reasons:
+- Currently looking for a job. Hoping this makes me stand out a tiny bit more.
+- And I plan to make a web framework that requires no javascript knowledge to use, by using web sockets to update the UI (inspired by Phoenix the elixir framework).
+
+
+
 \
 ``` Expect breaking changes! ```
 #### Simple usage:
@@ -76,4 +85,19 @@ fun main(){
 
 ```
 Coming soon!
+```
+
+
+### About me
+
+```json
+{
+  "currently_looking_for_job": true,
+
+  "name": "Joshua Hunter",
+  "title": "Full Stack Developer",
+  
+  "email": "coming soon",
+  "favorites_languages": "Kotlin 🥰, Haskell 🔥, C++ 👍 "
+}
 ```
