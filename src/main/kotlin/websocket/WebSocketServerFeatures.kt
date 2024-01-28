@@ -1,5 +1,8 @@
 package websocket
 
+import java.io.InputStream
+import java.io.OutputStream
+
 /*
 *
 * Adds features to websocket server
@@ -11,4 +14,5 @@ package websocket
 * */
 
 interface WebSocketServerFeatures {
+
 }

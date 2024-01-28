@@ -1,4 +1,0 @@
-package websocket.WebSocketBehaviors
-import websocket.WebSocketServerBehaviors
-class DefaultConnectionBehavior : WebSocketServerBehaviors{
-}

@@ -66,7 +66,17 @@ object WebSocketMessage {
         }
 
         val payload = ByteArray(length)
-        inputStream.read(payload, 0, length)
+        var bytesRead = 0
+
+        while (bytesRead < length) {
+            val chunkSize = inputStream.read(payload, bytesRead, length - bytesRead)
+
+            if (chunkSize == -1) {
+                WebSocketDebugger.assert(chunkSize != -1, "chunkSize == -1")
+                break
+            }
+            bytesRead += chunkSize
+        }
 
         if (maskingKey != null) {
             for (i in payload.indices) {
@@ -111,27 +121,48 @@ object WebSocketMessage {
         }
     }
     fun createWebSocketFrame(
-            payload: ByteArray,
-            fin: Boolean = true,
-            RSV1: Boolean = false,
-            RSV2: Boolean = false,
-            RSV3: Boolean = false,
-            opcode: Int = 1,
-            mask: Boolean = false,
-            length: Int = payload.size,
-            maskingKey: ByteArray? = null,
-        ): ByteArray {
+        payload: ByteArray,
+        fin: Boolean = true,
+        RSV1: Boolean = false,
+        RSV2: Boolean = false,
+        RSV3: Boolean = false,
+        opcode: Int = 1,
+        mask: Boolean = false,
+        maskingKey: ByteArray? = null,
+    ): ByteArray {
 
         val finBit = if (fin) 0x80 else 0x00
         val opcodeAndMask = opcode or finBit
 
-        val frameHeader = byteArrayOf(
-            opcodeAndMask.toByte(),
-            length.toByte()
-        )
+        val payloadLength = payload.size
+        val frameHeader = when {
+            payloadLength <= 125 -> byteArrayOf(opcodeAndMask.toByte(), payloadLength.toByte())
+            payloadLength <= 65535 -> {
+                byteArrayOf(opcodeAndMask.toByte(), 126) + payloadLength.toShort().toByteArray()
+            }
+            else -> {
+                byteArrayOf(opcodeAndMask.toByte(), 127) + payloadLength.toLong().toByteArray()
+            }
+        }
 
-        return frameHeader + payload
+        val extendedFrameHeader = if (mask) {
+            require(maskingKey != null && maskingKey.size == 4) { "Masking key must be provided for masked frames." }
+            frameHeader + maskingKey
+        } else {
+            frameHeader
+        }
+
+        return extendedFrameHeader + payload
     }
+
+    private fun Short.toByteArray(): ByteArray {
+        return byteArrayOf((this.toInt() shr 8).toByte(), this.toByte())
+    }
+
+    private fun Long.toByteArray(): ByteArray {
+        return ByteArray(8) { (this shr (56 - it * 8)).toByte() }
+    }
+
 
     fun sendMessage(agent: WebSocketServerAgent, message: String){
         try {
