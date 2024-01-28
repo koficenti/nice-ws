@@ -1,5 +1,5 @@
 
-## A Reasonably Nice Web Socket Library
+## A Reasonably Nice Web Socket Library (WIP)
 
 
 #### What is 'nice-ws':
