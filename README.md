@@ -21,7 +21,7 @@ A few reasons:
 \
 ``` Expect breaking changes! ```
 #### Simple usage:
-Creates a simple web socket server that if it receives the message "say hi" it will send the corresponding message to the client, "Hello"
+Creates a simple web socket server using very naive channels
 ```kotlin
 // this code works for the moment 🫢
 
