@@ -4,8 +4,8 @@
 
 #### What is 'nice-ws':
 
-Nice-ws is a web socket library written kotlin. \
-Currently with only server support. \
+Nice-ws is a web socket library written in Kotlin (the programming language). \
+Currently with server support only (client coming soon 👍). \
 The goal for this project is to become very feature rich and easy to use for the general use cases.
 ######  This library is new and not for production, you were warned ⚠️
 
